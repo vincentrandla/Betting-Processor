@@ -1,3 +1,5 @@
+package model;
+
 public class LegalPlayer {
     private String playerId;
     private double finalAmount;

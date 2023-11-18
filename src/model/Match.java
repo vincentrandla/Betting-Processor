@@ -1,3 +1,5 @@
+package model;
+
 public class Match {
     private String id;
     private double aCoef;

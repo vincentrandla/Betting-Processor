@@ -1,5 +1,12 @@
+import datareader.MatchDataReader;
+import datareader.PlayerDataReader;
+import model.LegalPlayer;
+import model.Match;
+import model.Player;
+
 import java.io.*;
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class Main {
     public static void main(String[] args) throws IOException {
@@ -10,35 +17,20 @@ public class Main {
         List<LegalPlayer> legalPlayers = new ArrayList<>();
         double casinoBalance = 0;
 
-        BufferedReader pd = new BufferedReader(new FileReader("player_data.txt"));
-        String pd_line = pd.readLine();
-        while (pd_line != null) {
-            String[] lines = pd_line.split(",");
-            String id = lines[0];
-            String action = lines[1];
-            String matchId = lines[2];
-            double amount = Double.parseDouble(lines[3]);
-            String betSide = lines[2].isEmpty() ? "" : lines[4];
-            Player playerData = new Player(id, action, matchId, amount, betSide);
-            playerDataList.add(playerData);
-            playerIds.add(id);
-            pd_line = pd.readLine();
+        try {
+            List<Match> matchDataReader = MatchDataReader.readMatchDataFromFile("match_data.txt");
+            matchDataList.addAll(matchDataReader);
+        } catch (IOException e) {
+            System.err.println("Error reading match data: " + e.getMessage());
         }
-        pd.close();
 
-        BufferedReader md = new BufferedReader(new FileReader("match_data.txt"));
-        String md_line = md.readLine();
-        while (md_line != null) {
-            String[] lines = md_line.split(",");
-            String id = lines[0];
-            double a = Double.parseDouble(lines[1]);
-            double b = Double.parseDouble(lines[2]);
-            String result = lines[3];
-            Match matchData = new Match(id, a, b, result);
-            matchDataList.add(matchData);
-            md_line = md.readLine();
+        try {
+            List<Player> playerDataReader = PlayerDataReader.readPlayerDataFromFile("player_data.txt");
+            playerDataList.addAll(playerDataReader);
+            playerIds.addAll(playerDataList.stream().map(Player::getId).collect(Collectors.toSet()));
+        } catch (IOException e) {
+            System.err.println("Error reading player data: " + e.getMessage());
         }
-        md.close();
 
         for (String id: playerIds) {
             try {
@@ -73,7 +65,7 @@ public class Main {
                                         .orElseThrow();
                             } catch (Exception e) {
                                 illegalPlayers.add(action);
-                                throw new RuntimeException("Match ID not found. ");
+                                throw new RuntimeException("model.Match ID not found. ");
                             }
                             all_games++;
                             if (matchData.getResult().equals(action.getBetSide())) {
@@ -100,6 +92,11 @@ public class Main {
             }
         }
 
+        PrintWriter pw = getPrintWriter(legalPlayers, illegalPlayers, casinoBalance);
+        pw.close();
+    }
+
+    private static PrintWriter getPrintWriter(List<LegalPlayer> legalPlayers, List<Player> illegalPlayers, double casinoBalance) throws IOException {
         PrintWriter pw = new PrintWriter(new FileWriter("result.txt"));
         for (LegalPlayer player: legalPlayers) {
             pw.print(player.getPlayerId());
@@ -124,6 +121,6 @@ public class Main {
         }
         pw.println();
         pw.print(casinoBalance);
-        pw.close();
+        return pw;
     }
 }
