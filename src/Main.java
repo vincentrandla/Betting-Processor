@@ -104,7 +104,8 @@ public class Main {
         for (LegalPlayer player: legalPlayers) {
             pw.print(player.getPlayerId());
             pw.print(" ");
-            pw.print(player.getFinalAmount());
+            int finalAmountAsInt = (int) player.getFinalAmount();
+            pw.print(finalAmountAsInt);
             pw.print(" ");
             pw.print(player.getFormattedWinPercentage());
             pw.println();
@@ -115,15 +116,18 @@ public class Main {
             pw.print(" ");
             pw.print(action.getAction());
             pw.print(" ");
-            pw.print(action.getMatchId());
+            //pw.print(action.getMatchId() != null ? action.getMatchId() : "null");
+            pw.print(action.getMatchId() != null && !action.getMatchId().isEmpty() ? action.getMatchId() : "null");
             pw.print(" ");
-            pw.print(action.getAmount());
+            int amountAsInt = (int) action.getAmount();
+            pw.print(amountAsInt);
             pw.print(" ");
-            pw.print(action.getBetSide());
+            pw.print(action.getBetSide() != null && !action.getBetSide().isEmpty() ? action.getBetSide() : "null");
             pw.println();
         }
         pw.println();
-        pw.print(casinoBalance);
+        int casinoBalanceAsInt = (int) casinoBalance;
+        pw.print(casinoBalanceAsInt);
         pw.close();
     }
 }
