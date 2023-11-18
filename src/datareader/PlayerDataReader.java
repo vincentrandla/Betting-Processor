@@ -15,7 +15,7 @@ public class PlayerDataReader {
         List<Player> playerDataReader = new ArrayList<>();
         Set<String> playerIds = new TreeSet<>();
 
-        try (BufferedReader pd = new BufferedReader(new FileReader("player_data.txt"))) {
+        try (BufferedReader pd = new BufferedReader(new FileReader(filePath))) {
             String pd_line = pd.readLine();
             while (pd_line != null) {
                 String[] lines = pd_line.split(",");

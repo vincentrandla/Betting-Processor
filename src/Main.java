@@ -32,15 +32,15 @@ public class Main {
             System.err.println("Error reading player data: " + e.getMessage());
         }
 
-        /*List<Player> Player = Action.processPlayers(
-                playerIds,
-                playerDataList,
-                matchDataList,
-                illegalPlayers,
-                casinoBalance
-        );*/
+        Action.legalPlayers(playerIds, playerDataList, matchDataList, illegalPlayers, legalPlayers, casinoBalance);
+        ResultDataWriter.writeResultsToFile("result.txt", legalPlayers, illegalPlayers, casinoBalance);
 
-        for (String id: playerIds) {
+
+
+
+
+
+/*        for (String id: playerIds) {
             try {
                 List<Player> playerAction = playerDataList.stream()
                         .filter(e -> e.getId().equals(id))
@@ -98,9 +98,9 @@ public class Main {
             } catch (RuntimeException e) {
                 System.err.println("Illegal action found: PlayerID " + id + " " + e.getMessage());
             }
-        }
+        }*/
 
-        PrintWriter pw = new PrintWriter(new FileWriter("result.txt"));
+        /*PrintWriter pw = new PrintWriter(new FileWriter("result.txt"));
         for (LegalPlayer player: legalPlayers) {
             pw.print(player.getPlayerId());
             pw.print(" ");
@@ -116,7 +116,6 @@ public class Main {
             pw.print(" ");
             pw.print(action.getAction());
             pw.print(" ");
-            //pw.print(action.getMatchId() != null ? action.getMatchId() : "null");
             pw.print(action.getMatchId() != null && !action.getMatchId().isEmpty() ? action.getMatchId() : "null");
             pw.print(" ");
             int amountAsInt = (int) action.getAmount();
@@ -129,5 +128,6 @@ public class Main {
         int casinoBalanceAsInt = (int) casinoBalance;
         pw.print(casinoBalanceAsInt);
         pw.close();
+    }*/
     }
 }
