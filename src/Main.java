@@ -32,6 +32,14 @@ public class Main {
             System.err.println("Error reading player data: " + e.getMessage());
         }
 
+        /*List<Player> Player = Action.processPlayers(
+                playerIds,
+                playerDataList,
+                matchDataList,
+                illegalPlayers,
+                casinoBalance
+        );*/
+
         for (String id: playerIds) {
             try {
                 List<Player> playerAction = playerDataList.stream()
@@ -88,22 +96,17 @@ public class Main {
                 legalPlayers.add(new LegalPlayer(id, incomeOutcome, won_games/all_games));
 
             } catch (RuntimeException e) {
-                System.err.println("Illegal action found: " + id + " " + e.getMessage());
+                System.err.println("Illegal action found: PlayerID " + id + " " + e.getMessage());
             }
         }
 
-        PrintWriter pw = getPrintWriter(legalPlayers, illegalPlayers, casinoBalance);
-        pw.close();
-    }
-
-    private static PrintWriter getPrintWriter(List<LegalPlayer> legalPlayers, List<Player> illegalPlayers, double casinoBalance) throws IOException {
         PrintWriter pw = new PrintWriter(new FileWriter("result.txt"));
         for (LegalPlayer player: legalPlayers) {
             pw.print(player.getPlayerId());
             pw.print(" ");
             pw.print(player.getFinalAmount());
             pw.print(" ");
-            pw.print(player.getWinPercentage());
+            pw.print(player.getFormattedWinPercentage());
             pw.println();
         }
         pw.println();
@@ -121,6 +124,6 @@ public class Main {
         }
         pw.println();
         pw.print(casinoBalance);
-        return pw;
+        pw.close();
     }
 }

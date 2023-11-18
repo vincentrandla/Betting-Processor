@@ -4,10 +4,10 @@ public class Player {
     private String id;
     private String action;
     private String matchId;
-    private double amount;
+    private long amount;
     private String betSide;
 
-    public Player(String id, String action, String matchId, double amount, String betSide) {
+    public Player(String id, String action, String matchId, long amount, String betSide) {
         this.id = id;
         this.action = action;
         this.matchId = matchId;
@@ -15,11 +15,11 @@ public class Player {
         this.betSide = betSide;
     }
 
-    public Player(String id, String action, double amount) {
+/*    public Player(String id, String action, long amount) {
         this.id = id;
         this.action = action;
         this.amount = amount;
-    }
+    }*/
 
     public String getId() {
         return id;
@@ -33,7 +33,7 @@ public class Player {
         return matchId;
     }
 
-    public double getAmount() {
+    public long getAmount() {
         return amount;
     }
 

@@ -24,7 +24,7 @@ public class PlayerDataReader {
                 String matchId = lines[2];
                 double amount = Double.parseDouble(lines[3]);
                 String betSide = lines[2].isEmpty() ? "" : lines[4];
-                Player playerData = new Player(id, action, matchId, amount, betSide);
+                Player playerData = new Player(id, action, matchId, (long) amount, betSide);
                 playerDataReader.add(playerData);
                 playerIds.add(id);
                 pd_line = pd.readLine();
