@@ -1,16 +1,18 @@
+package gamelogic;
+
 import model.LegalPlayer;
 import model.Match;
 import model.Player;
+import model.ProcessResult;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
 public class Action {
 
-    static List<LegalPlayer> legalPlayers(Set<String> playerIds, List<Player> playerDataList,
-                                            List<Match> matchDataList, List<Player> illegalPlayers,
-                                            List<LegalPlayer> legalPlayers, double casinoBalance) {
+    public static ProcessResult processPlayers(Set<String> playerIds, List<Player> playerDataList,
+                                               List<Match> matchDataList, List<Player> illegalPlayers,
+                                               List<LegalPlayer> legalPlayers, double casinoBalance) {
         for (String id : playerIds) {
             try {
                 List<Player> playerAction = playerDataList.stream()
@@ -24,6 +26,7 @@ public class Action {
                 for (Player action : playerAction) {
                     switch (action.getAction()) {
                         case "DEPOSIT" -> moneyMovement += action.getAmount();
+
                         case "WITHDRAW" -> {
                             moneyMovement -= action.getAmount();
                             if (moneyMovement < 0) {
@@ -31,6 +34,7 @@ public class Action {
                                 throw new RuntimeException("Withdrew too much");
                             }
                         }
+
                         case "BET" -> {
                             if (action.getAmount() > moneyMovement) {
                                 illegalPlayers.add(action);
@@ -71,7 +75,7 @@ public class Action {
             }
         }
 
-        return legalPlayers;
+        return new ProcessResult(legalPlayers, casinoBalance);
     }
 
 }

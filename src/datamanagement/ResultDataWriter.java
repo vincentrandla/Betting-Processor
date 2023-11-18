@@ -1,5 +1,8 @@
+package datamanagement;
+
 import model.LegalPlayer;
 import model.Player;
+import model.ProcessResult;
 
 import java.io.FileWriter;
 import java.io.IOException;
@@ -7,7 +10,9 @@ import java.io.PrintWriter;
 import java.util.List;
 
 public class ResultDataWriter {
-    static void writeResultsToFile(String fileName, List<LegalPlayer> legalPlayers, List<Player> illegalPlayers, double casinoBalance) throws IOException {
+    public static void writeResultsToFile(String fileName, ProcessResult result, List<Player> illegalPlayers) throws IOException {
+        double casinoBalance = result.getCasinoBalance();
+        List<LegalPlayer> legalPlayers = result.getLegalPlayers();
         PrintWriter pw = new PrintWriter(new FileWriter(fileName));
         for (LegalPlayer player : legalPlayers) {
             pw.print(player.getPlayerId());
@@ -38,3 +43,4 @@ public class ResultDataWriter {
         pw.close();
     }
 }
+

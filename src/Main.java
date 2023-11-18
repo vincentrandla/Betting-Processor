@@ -1,8 +1,11 @@
-import datareader.MatchDataReader;
-import datareader.PlayerDataReader;
+import datamanagement.MatchDataReader;
+import datamanagement.PlayerDataReader;
+import datamanagement.ResultDataWriter;
+import gamelogic.Action;
 import model.LegalPlayer;
 import model.Match;
 import model.Player;
+import model.ProcessResult;
 
 import java.io.*;
 import java.util.*;
@@ -32,102 +35,8 @@ public class Main {
             System.err.println("Error reading player data: " + e.getMessage());
         }
 
-        Action.legalPlayers(playerIds, playerDataList, matchDataList, illegalPlayers, legalPlayers, casinoBalance);
-        ResultDataWriter.writeResultsToFile("result.txt", legalPlayers, illegalPlayers, casinoBalance);
 
-
-
-
-
-
-/*        for (String id: playerIds) {
-            try {
-                List<Player> playerAction = playerDataList.stream()
-                        .filter(e -> e.getId().equals(id))
-                        .toList();
-
-                double incomeOutcome = 0;
-                double playerOutcome = 0;
-                double all_games = 0;
-                double won_games = 0;
-                for (Player action: playerAction) {
-                    switch (action.getAction()) {
-                        case "DEPOSIT" -> incomeOutcome += action.getAmount();
-                        case "WITHDRAW" -> {
-                            incomeOutcome -= action.getAmount();
-                            if (incomeOutcome < 0) {
-                                illegalPlayers.add(action);
-                                throw new RuntimeException("Withdrew too much");
-                            }
-                        }
-                        case "BET" -> {
-                            if (action.getAmount() > incomeOutcome) {
-                                illegalPlayers.add(action);
-                                throw new RuntimeException("Bet too much");
-                            }
-                            Match matchData;
-                            try {
-                                matchData = matchDataList.stream()
-                                        .filter(e -> e.getId().equals(action.getMatchId()))
-                                        .findFirst()
-                                        .orElseThrow();
-                            } catch (Exception e) {
-                                illegalPlayers.add(action);
-                                throw new RuntimeException("model.Match ID not found. ");
-                            }
-                            all_games++;
-                            if (matchData.getResult().equals(action.getBetSide())) {
-                                won_games++;
-                                if (matchData.getResult().equals("A")) {
-                                    playerOutcome += action.getAmount()*matchData.getaCoef();
-                                } else if (matchData.getResult().equals("B")) {
-                                    playerOutcome += action.getAmount()*matchData.getbCoed();
-                                }
-                            } else if (!matchData.getResult().equals("DRAW") &&
-                                    !matchData.getResult().equals(action.getBetSide())
-                            ) {
-                                playerOutcome -= action.getAmount();
-                            }
-                        }
-                    }
-                }
-                incomeOutcome += playerOutcome;
-                casinoBalance -= playerOutcome;
-                legalPlayers.add(new LegalPlayer(id, incomeOutcome, won_games/all_games));
-
-            } catch (RuntimeException e) {
-                System.err.println("Illegal action found: PlayerID " + id + " " + e.getMessage());
-            }
-        }*/
-
-        /*PrintWriter pw = new PrintWriter(new FileWriter("result.txt"));
-        for (LegalPlayer player: legalPlayers) {
-            pw.print(player.getPlayerId());
-            pw.print(" ");
-            int finalAmountAsInt = (int) player.getFinalAmount();
-            pw.print(finalAmountAsInt);
-            pw.print(" ");
-            pw.print(player.getFormattedWinPercentage());
-            pw.println();
-        }
-        pw.println();
-        for (Player action: illegalPlayers) {
-            pw.print(action.getId());
-            pw.print(" ");
-            pw.print(action.getAction());
-            pw.print(" ");
-            pw.print(action.getMatchId() != null && !action.getMatchId().isEmpty() ? action.getMatchId() : "null");
-            pw.print(" ");
-            int amountAsInt = (int) action.getAmount();
-            pw.print(amountAsInt);
-            pw.print(" ");
-            pw.print(action.getBetSide() != null && !action.getBetSide().isEmpty() ? action.getBetSide() : "null");
-            pw.println();
-        }
-        pw.println();
-        int casinoBalanceAsInt = (int) casinoBalance;
-        pw.print(casinoBalanceAsInt);
-        pw.close();
-    }*/
+        ProcessResult processResult = Action.processPlayers(playerIds, playerDataList, matchDataList, illegalPlayers, legalPlayers, casinoBalance);
+        ResultDataWriter.writeResultsToFile("src/result.txt", processResult, illegalPlayers);
     }
 }

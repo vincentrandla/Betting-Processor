@@ -1,4 +1,4 @@
-package datareader;
+package datamanagement;
 
 import model.Match;
 
