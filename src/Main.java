@@ -1,11 +1,11 @@
 import datamanagement.MatchDataReader;
 import datamanagement.PlayerDataReader;
 import datamanagement.ResultDataWriter;
-import gamelogic.Action;
+import gamelogic.Operation;
 import model.LegalPlayer;
 import model.Match;
 import model.Player;
-import model.ProcessResult;
+import model.PlayerOperation;
 
 import java.io.*;
 import java.util.*;
@@ -36,7 +36,7 @@ public class Main {
         }
 
 
-        ProcessResult processResult = Action.processPlayers(playerIds, playerDataList, matchDataList, illegalPlayers, legalPlayers, casinoBalance);
-        ResultDataWriter.writeResultsToFile("src/result.txt", processResult, illegalPlayers);
+        PlayerOperation playerOperation = Operation.playerOperation(playerIds, playerDataList, matchDataList, illegalPlayers, legalPlayers, casinoBalance);
+        ResultDataWriter.writeResultsToFile("src/result.txt", playerOperation, illegalPlayers);
     }
 }

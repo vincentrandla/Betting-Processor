@@ -1,14 +1,12 @@
 package model;
 
-import model.LegalPlayer;
-
 import java.util.List;
 
-public class ProcessResult {
+public class PlayerOperation {
     private final List<LegalPlayer> legalPlayers;
     private final double casinoBalance;
 
-    public ProcessResult(List<LegalPlayer> legalPlayers, double casinoBalance) {
+    public PlayerOperation(List<LegalPlayer> legalPlayers, double casinoBalance) {
         this.legalPlayers = legalPlayers;
         this.casinoBalance = casinoBalance;
     }
