@@ -59,9 +59,9 @@ public class Operation {
                             if (matchData.getResult().equals(action.getBetSide())) {
                                 wonGames++;
                                 if (matchData.getResult().equals("A")) {
-                                    playerOutcome += action.getAmount() * matchData.getaCoef();
+                                    playerOutcome += action.getAmount() * matchData.getaCoefficient();
                                 } else if (matchData.getResult().equals("B")) {
-                                    playerOutcome += action.getAmount() * matchData.getbCoed();
+                                    playerOutcome += action.getAmount() * matchData.getbCoefficient();
                                 }
                             } else if (!matchData.getResult().equals("DRAW") &&
                                     !matchData.getResult().equals(action.getBetSide())

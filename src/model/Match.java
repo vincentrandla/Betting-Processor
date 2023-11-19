@@ -2,14 +2,14 @@ package model;
 
 public class Match {
     private String id;
-    private double aCoef;
-    private double bCoef;
+    private double aCoefficient;
+    private double bCoefficient;
     private String result;
 
-    public Match(String id, double aCoef, double bCoed, String result) {
+    public Match(String id, double aCoefficient, double bCoed, String result) {
         this.id = id;
-        this.aCoef = aCoef;
-        this.bCoef = bCoed;
+        this.aCoefficient = aCoefficient;
+        this.bCoefficient = bCoefficient;
         this.result = result;
     }
 
@@ -17,12 +17,12 @@ public class Match {
         return id;
     }
 
-    public double getaCoef() {
-        return aCoef;
+    public double getaCoefficient() {
+        return aCoefficient;
     }
 
-    public double getbCoed() {
-        return bCoef;
+    public double getbCoefficient() {
+        return bCoefficient;
     }
 
     public String getResult() {

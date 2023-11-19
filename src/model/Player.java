@@ -15,12 +15,6 @@ public class Player {
         this.betSide = betSide;
     }
 
-/*    public Player(String id, String action, long amount) {
-        this.id = id;
-        this.action = action;
-        this.amount = amount;
-    }*/
-
     public String getId() {
         return id;
     }

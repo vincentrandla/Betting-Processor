@@ -35,7 +35,6 @@ public class Main {
             System.err.println("Error reading player data: " + e.getMessage());
         }
 
-
         PlayerOperation playerOperation = Operation.playerOperation(playerIds, playerDataList, matchDataList, illegalPlayers, legalPlayers, casinoBalance);
         ResultDataWriter.writeResultsToFile("src/result.txt", playerOperation, illegalPlayers);
     }
